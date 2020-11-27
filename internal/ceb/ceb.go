@@ -19,6 +19,7 @@ import (
 	pb "github.com/hashicorp/waypoint/internal/server/gen"
 	"github.com/hashicorp/waypoint/internal/version"
 
+	pluginAWSSSM "github.com/hashicorp/waypoint/builtin/aws/ssm"
 	pluginK8s "github.com/hashicorp/waypoint/builtin/k8s"
 	pluginVault "github.com/hashicorp/waypoint/builtin/vault"
 )
@@ -112,6 +113,9 @@ func Run(ctx context.Context, os ...Option) error {
 	// NOTE(mitchellh): In the future, we will dynamically load these via
 	// a plugin system, Initially, we hardcode what we support.
 	ceb.configPlugins = map[string]*plugin.Instance{
+		"aws-ssm": {
+			Component: &pluginAWSSSM.ConfigSourcer{},
+		},
 		"kubernetes": {
 			Component: &pluginK8s.ConfigSourcer{},
 		},
